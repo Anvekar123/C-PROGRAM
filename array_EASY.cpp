@@ -6,7 +6,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int main()
+int main( )
 {
 int arr[10]={5,6,1,4,56,28,43,11,4,15};
 int largest_element =arr[0];
