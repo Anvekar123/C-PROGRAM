@@ -11,7 +11,7 @@ int main()
     int arr[n];
     cout<<"give input"<<"\n";
     for (int i = 0; i < n; i++)
-    {
+    { 
         cin>>arr[i];
     }
     //precompute hash table is 13
