@@ -331,4 +331,23 @@ int team(vector <int> & arr, int n)
     return mergesort(arr, 0, n-1);
 }
 
+#include<vector>
+#include <bits/stdc++.h>
+int subarrayWithMaxProduct(vector<int> &arr){
+int pre =1;
+int suf= 1;
+int maxi = INT_MIN;
+int n = arr.size();
 
+for(int i=0;i<n;i++)
+{
+	if(suf ==0) suf =1;
+	if(pre == 0) pre = 1;
+	pre = pre*arr[i];
+	suf  = suf*arr[n-1-i];
+	maxi = max(maxi, max(suf,pre));
+}
+return maxi;
+
+
+}
