@@ -175,3 +175,160 @@ vector<vector<int>> mergeOverlappingIntervals(vector<vector<int>> &arr){
 	return ans;
 	
 }
+void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int k=0;
+        for(int i=m;i<n+m;i++)
+        {
+            if(nums1[i]!=0)continue;
+            else
+            {
+                nums1[i]= nums2[k];
+                k++;
+            }
+        }
+        sort(nums1.begin(), nums1.end());
+        
+    }
+
+    vector<int> findTwoElement(vector<int> arr, int n) {
+        // code here
+        long long sn1= (n*(n+1))/2;
+        long long sn2 = (n*(n+1)*(2*n+1))/6;
+        long long s1=0,s2=0;
+        for(int i=0;i<n;i++)
+        {
+            s1+=arr[i];
+            s2 += arr[i]*arr[i];
+        }
+        long long val1 =  s1 - sn1;
+        long long val2 = s2-sn2;
+        val2 = val2/val1;
+        long long x  = (val1 + val2)/2;
+        long long y = x-val1;
+            
+            return {(int)x, (int)y};
+        }
+
+
+int merge(vector<int> &arr, int low, int mid, int high) {
+    vector<int> temp; // temporary array
+    int left = low;      // starting index of left half of arr
+    int right = mid + 1;   // starting index of right half of arr
+
+    //Modification 1: cnt variable to count the pairs:
+    int cnt = 0;
+
+    //storing elements in the temporary array in a sorted manner//
+
+    while (left <= mid && right <= high) {
+        if (arr[left] <= arr[right]) {
+            temp.push_back(arr[left]);
+            left++;
+        }
+        else {
+            temp.push_back(arr[right]);
+            cnt += (mid - left + 1); //Modification 2
+            right++;
+        }
+    }
+
+    // if elements on the left half are still left //
+
+    while (left <= mid) {
+        temp.push_back(arr[left]);
+        left++;
+    }
+
+    //  if elements on the right half are still left //
+    while (right <= high) {
+        temp.push_back(arr[right]);
+        right++;
+    }
+
+    // transfering all elements from temporary to arr //
+    for (int i = low; i <= high; i++) {
+        arr[i] = temp[i - low];
+    }
+
+    return cnt; // Modification 3
+}
+
+int mergeSort(vector<int> &arr, int low, int high) {
+    int cnt = 0;
+    if (low >= high) return cnt;
+    int mid = (low + high) / 2 ;
+    cnt += mergeSort(arr, low, mid);  // left half
+    cnt += mergeSort(arr, mid + 1, high); // right half
+    cnt += merge(arr, low, mid, high);  // merging sorted halves
+    return cnt;
+}
+#include <bits/stdc++.h>
+using namespace  std;
+void Merge(vector<int> &arr, int low, int mid, int high)
+{
+    int left =low;
+    int right = mid+1;
+    vector<int> temp;
+    while(left<=mid && right <=high)
+    {
+        if(arr[left] <= arr[right])
+        {
+            temp.push_back(arr[left]);
+            left++;
+        }
+        else{
+            temp.push_back(arr[right]);
+            right++;
+        }
+    }
+    while(left<=mid)
+    {
+        temp.push_back(arr[left]);
+        left++;
+    }
+    while(right<=high)
+    {
+        temp.push_back(arr[right]);
+        right++;
+    }
+
+    for(int i=low;i<=high;i++)
+    {
+        arr[i]= temp[i-low];
+    }
+}
+
+int countpair(vector<int> &arr, int low, int mid, int high)
+{
+    int cnt=0;
+    int right= mid+1;
+    for(int i=low;i<=mid;i++)
+    {
+        while(right<=high && arr[i]> 2*arr[right]) right++;
+        cnt+= (right - (mid+1));
+    }
+
+    return cnt;
+}
+
+int  mergesort(vector<int> &arr, int low, int high)
+{
+    int cnt=0;
+    if(low>= high) return cnt;
+    int mid = (low+high)/2;
+    cnt+=mergesort(arr, low, mid);
+    cnt+=mergesort(arr,mid+1,high);
+    cnt+=countpair(arr, low, mid, high);
+    Merge(arr,low,mid,high);
+
+    return cnt;
+}
+
+
+
+int team(vector <int> & arr, int n)
+{
+    return mergesort(arr, 0, n-1);
+}
+
+
