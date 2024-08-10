@@ -61,3 +61,57 @@ while(low<=high)
 }
 return ans;
 }
+
+#include <bits/stdc++.h>
+using namespace std;
+int searchInsert(vector<int>& arr, int m)
+{
+	// int n =  arr.size(); 
+	// int low=0, high = n-1;
+	// int ans= n;
+	// while(low<= high)
+	// {
+	// 	int mid = (low + high)/2;
+
+	// 	if( arr[mid]>= m)
+	// 	{
+	// 		ans= mid;
+	// 		high = mid-1;
+	// 	}
+	// 	else{
+	// 		low = mid+1;
+	// 	}
+	// }
+	// return ans;
+	 int lb = lower_bound(arr.begin(), arr.end(),m)- arr.begin();
+	 return lb;
+}
+
+int floor(vector<int> &arr, int n, int x)
+{
+    int low=0, high = n-1;
+    int ans=n;
+    while(low<=high)
+    {
+        int mid = (low+high)/2;
+        if(arr[mid]<=x)
+        {
+            ans= arr[mid];
+            low  = mid+1;
+        }
+        else
+        {
+            high= mid-1;
+        }
+    }
+    return ans;
+}
+pair<int,int> floorandceil(vector<int> &arr, int n, int x)
+{   
+    pair<int,int> res;
+    int f= floor(arr,n,x);
+    int c = lower_bound(arr.begin(),arr.end(),x)- arr.begin();
+    res={f,c};
+    return  res;
+
+}
