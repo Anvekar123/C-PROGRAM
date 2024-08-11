@@ -115,3 +115,194 @@ pair<int,int> floorandceil(vector<int> &arr, int n, int x)
     return  res;
 
 }
+
+#include <bits/stdc++.h>
+using namespace std;
+pair<int, int> firstAndLastPosition(vector<int>& arr, int n, int k)
+{
+int lb = lower_bound(arr.begin(),arr.end(),k) - arr.begin();
+int up = upper_bound(arr.begin(),arr.end(),k) - arr.begin();
+
+if(lb==n || arr[lb]!=k) return {-1,-1};
+return {lb, up-1};
+}
+int lowerB(vector<int> &arr, int n, int x)
+{
+	int low=0, high =n-1;
+	int fist =-1;
+	while(low<=high)
+	{
+		int mid  = (low+mid)/2;
+		if(arr[mid]== x)
+		{
+			first = mid;
+			high = mid-1;
+		}
+		else if(arr[mid]> x)
+		{
+			high  = mid-1;
+		}
+		else{
+			low= mid+1;
+		}
+	}
+	return first;
+}
+int upperB(vector<int> &arr, int n, int x)
+{
+	int low=0, high =n-1;
+	int last =-1;
+	while(low<=high)
+	{
+		int mid  = (low+mid)/2;
+		if(arr[mid]== x)
+		{
+			last = mid;
+			low= mid+1;
+		}
+		else if(arr[mid]> x)
+		{
+			high  = mid-1;
+		}
+		else{
+			low= mid+1;
+		}
+	}
+	return last;
+}
+
+int count(vector<int>& arr, int n, int x) {
+	int first = lowerB(arr,n,x);
+	if(first == -1) return 0;
+	int last = upperB(arr,n,x);
+	return (last - first)+1;
+}
+int search(vector<int>& nums, int target) {
+        int low=0;
+        int n  = nums.size();
+        int high=n-1;
+        while(low<=high)
+        {
+            int mid =  (low+high)/2;
+            if(nums[mid]== target) return mid;
+
+            if(nums[low]<=nums[mid])
+            {
+                if(nums[low]<=target && target <=nums[mid])
+                {
+                    high= mid-1;
+                }
+                else
+                {
+                    low=mid+1;
+                }
+            }
+            else
+            {
+                if(nums[mid]<=target && target<= nums[high])
+                {
+                    low= mid+1;
+                }
+                else
+                {
+                    high = mid-1;
+                }
+            }
+        }  
+        return -1;   
+    }
+bool search(vector<int>& nums, int target) {
+        int low =0;
+        int n= nums.size();
+        int high =  n-1;
+        while(low<=high)
+        {
+            int mid = (low+high)/2;
+            if(nums[mid]==target) return true;
+            if(nums[low]==nums[mid] && nums[mid]== nums[high])
+            {
+                low++;
+                high--;
+                continue;
+            }
+            if(nums[low]<=nums[mid])
+            {
+                if(nums[low]<=target && target<= nums[mid])
+                {
+                    high= mid-1;
+                }
+                else
+                {
+                    low=mid+1;
+                }
+            }
+            else
+            {
+                if(nums[mid]<=target && target<= nums[high])
+                {
+                    low=mid+1;
+                }
+                else
+                {
+                    high=mid-1;
+                }
+            }
+        }
+        return false;
+        
+    }
+
+int findMin(vector<int>& nums) {
+        int low=0;
+        int n= nums.size();
+        int high = n-1;
+        int ans= INT_MAX;
+        while(low<=high)
+        {
+            int mid = (low+high)/2;
+            if(nums[low]<=nums[mid])
+            {
+                ans= min(ans, nums[low]);
+                low= mid+1;
+            }
+            else 
+            {
+                ans= min(ans,nums[mid]);
+                high = mid-1;
+            }
+        }
+        return ans;
+        
+    }
+
+int findKRotation(vector<int> &arr) {
+    int low = 0, high = arr.size() - 1;
+    int ans = INT_MAX;
+    int index = -1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        //if left part is sorted:
+        if (arr[low] <= arr[mid]) {
+            // keep the minimum:
+            if (arr[low] < ans) {
+                index = low;
+                ans = arr[low];
+            }
+
+            // Eliminate left half:
+            low = mid + 1;
+        }
+        else { //if right part is sorted:
+
+            // keep the minimum:
+            if (arr[mid] < ans) {
+                index = mid;
+                ans = arr[mid];
+            }
+
+            // Eliminate right half:
+            high = mid - 1;
+        }
+    }
+    return index;
+}
