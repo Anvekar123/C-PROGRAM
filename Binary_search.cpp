@@ -306,3 +306,136 @@ int findKRotation(vector<int> &arr) {
     }
     return index;
 }
+
+int singleNonDuplicate(vector<int>& arr)
+{
+int n= arr.size();
+if(n==1) return arr[0];
+if(arr[0]!=arr[1]) return arr[0];
+if(arr[n-1]!=arr[n-2]) return arr[n-1];
+int low=1;
+int high  = n-2;
+while(low<=high)
+{
+	int mid= (low+high)/2;
+	if(arr[mid]!=arr[mid-1] && arr[mid]!=arr[mid+1]) return arr[mid];
+
+	if((mid%2==1 && arr[mid]==arr[mid-1]) || (mid%2==0 && arr[mid]== arr[mid+1]))
+		{
+			low= mid+1;
+		}	
+	else
+	{
+		high =mid-1;
+	}
+
+}
+return -1;
+}
+int findPeakElement(vector<int> &arr) {
+
+int n = arr.size();
+if(n==1) return 0;
+if(arr[0]>arr[1]) return 0;
+if(arr[n-1]>arr[n-2]) return n-1;
+
+int low=1, high = n-2;
+while(low<=high)
+{
+    int mid= (low+high)/2;
+    if(arr[mid]>arr[mid-1] && arr[mid] > arr[mid+1]) return mid;
+    else if(arr[mid]>arr[mid-1]) low= mid+1;
+    else high= mid-1;
+}
+return -1;
+
+}
+#include <bits/stdc++.h>
+using namespace std;
+int floorSqrt(int n)
+{
+long long ans=1;
+long long low=1, high=n;
+while(low<=high)
+{
+    long long mid= (low+high)/2;
+    if(mid*mid <= n)
+    {
+        ans=mid;
+        low=mid+1;
+    }
+    else{
+        high= mid-1;
+    }
+}
+return high;
+}
+int func(int mid,int n,int m)
+{
+  long long ans=1;
+  for(int i=1;i<=n;i++)
+  {
+    ans=ans*mid;
+    if(ans>m) return 2;
+  }
+  if(ans==m) return 1;
+  return 0;
+}
+int NthRoot(int n, int m) {
+int low=1, high =m;
+while(low<=high)
+{
+  int mid=(low+high)/2;
+  int midN = func(mid,n,m);
+  if(midN==1){
+  return mid;
+  }
+  else if(midN==2) high=mid-1;
+  else low=mid+1;
+}
+return -1;
+}
+
+
+
+
+int maxval(vector<int> &arr)
+{
+    int n= arr.size();
+    int ans=0;
+    for(int i=0;i<n;i++)
+    {
+        ans=max(ans,arr[i]);
+    }
+    return  ans;
+}
+
+int totalhr(vector<int> &arr, int hr)
+{
+    int thr=0;
+    for(int i=0;i<arr.size();i++)
+    {
+        thr+= ceil((double)arr[i]/(double)hr);
+    }
+    return thr;
+}
+
+int minimumRateToEatBananas(vector<int> &arr, int h) {
+
+int low=1, high= maxval(arr);
+while(low<=high)
+{
+    int mid= (low+high)/2;
+    int thr = totalhr(arr, mid);
+    if(thr<= h) high=mid-1;
+    else
+    {
+        low=mid+1;
+    }
+}
+return low;
+}
+
+
+
+
