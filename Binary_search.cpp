@@ -434,8 +434,131 @@ while(low<=high)
     }
 }
 return low;
+
+	
+}
+
+bool possible(vector<int> &arr, int day, int k,int m)
+{
+	int cnt=0, boolm=0;
+	for(int i=0;i<arr.size();i++)
+	{
+		if(arr[i]<=day)
+		{
+			cnt++;
+		}
+		else{
+			boolm+=(cnt/k);
+			cnt=0;
+		}
+	}
+	boolm+= cnt/k;
+	return boolm >= m;
+}
+
+int roseGarden(vector<int> arr, int k, int m)
+{
+	long long val = (long long)k* (long long )m;
+	if(val>arr.size()) return -1;
+	int maxi= INT_MIN, mini = INT_MAX;
+	for(int i = 0; i < arr.size(); i++)
+	{
+		mini = min(mini, arr[i]);
+		maxi = max(maxi, arr[i]);
+	}
+	 int low= mini, high = maxi;
+	for(int i=mini; i<=maxi;i++)
+	{
+		int mid=(low+high)/2;
+		if(possible(arr, mid, k, m))
+		{
+			high= mid-1;
+		}
+		else{
+			low=mid+1;
+		}
+	}
+	return low;
+
 }
 
 
+int possibel_div(vector<int> &arr, int mid)
+{
+	int sum=0;
+	for(int i =0;i<arr.size();i++)
+	{
+		sum = sum + ceil((double)arr[i]/(double)mid);
+	}
+	return sum;
 
+}
+int smallestDivisor(vector<int>& arr, int limit)
+{
+int mini = INT_MAX, maxi = INT_MIN;
+int n =  arr.size();
 
+for( int i=0;i<n;i++)
+{
+	maxi = max(maxi, arr[i]);
+}
+
+int low= 1, high = maxi;
+int ans=0;
+for(int i = 1; i<= maxi; i++)
+{
+	int mid = (low + high) / 2;
+
+	if(possibel_div(arr,mid)<=limit)
+	{
+		ans= mid;
+		high= mid-1;
+	}
+	else{
+		low=mid+1;
+	}
+	
+}
+return ans;
+}
+int nodays(vector<int> &weights, int mid)
+{
+    int days=1,load=0;
+    for(int i=0;i<weights.size();i++)
+    {
+        if(weights[i]+load > mid)
+        {
+            days+=1;
+            load=weights[i];
+        }
+        else 
+        {
+            load+=weights[i];
+        }
+    }
+    return days;
+}
+int leastWeightCapacity(vector<int> &weights, int d)
+{
+int n= weights.size();
+int low = INT_MIN;
+int high=0;
+for(int i=0;i<n;i++)
+{
+    low = max(low,weights[i]);
+    high+=weights[i];
+}
+while(low<=high)
+{
+    int mid = (low+high)/2;
+    if(nodays(weights, mid)<= d)
+    {
+        high=mid-1;
+    }
+    else
+    {
+        low=mid+1;
+    }
+}
+return low;
+}
