@@ -580,3 +580,110 @@ while(low<=high)
 
 return k+1+high;
 }
+
+
+bool cancows(vector <int>&arr, int dist, int k)
+{
+    int cows=1, last= arr[0];
+    for(int i=0;i<arr.size(); i++)
+    {
+        if(arr[i] - last >=dist)
+        {
+            cows++;
+            last= arr[i];
+        }
+        if(cows>=k) return true;
+    }
+    return false;
+}
+int aggressiveCows(vector<int> &stalls, int k)
+{
+sort(stalls.begin(), stalls.end());
+int n = stalls.size();
+int low =1, high  = stalls[n-1] - stalls[0];
+
+while(low<=high)
+{
+    int mid = (low+high)/2;
+    if(cancows(stalls,mid,k) == true)
+    {
+        low= mid+1;
+    }
+    else
+    {
+        high=mid-1;
+    }
+}
+return high;
+}
+
+int NoStudent(vector<int> &arr, int pages)
+{
+    int student=1, Nopages =0;
+    for(int i=0;i<arr.size();i++)
+    {
+        if(Nopages + arr[i]<= pages)
+        {
+            Nopages+=arr[i];
+        }
+        else
+        {
+            student++;
+            Nopages = arr[i];
+        }
+    }
+    return student;
+}
+
+int findPages(vector<int>& arr, int n, int m) {
+if(m>n) return -1;
+int low= *max_element(arr.begin(), arr.end());
+int high = accumulate(arr.begin(), arr.end(),0);
+while(low<=high)
+{
+    int mid = (high+low)/2;
+    int stud= NoStudent(arr, mid);
+    if(stud>m)
+    {
+        low = mid+1;
+    }
+    else high=mid-1;
+}
+return low;
+}
+int nopainter(vector<int> & arr, int space)
+{
+    int noppl=1, len= 0;
+    for(int i =0; i< arr.size(); i++)
+    {
+        if(arr[i] + len<=space)
+        {
+            len+=arr[i];
+        }
+        else{
+            noppl++;
+            len = arr[i];
+        }
+    }
+    return noppl;
+}
+int findLargestMinDistance(vector<int> &boards, int k)
+{
+int n = boards.size();
+if(k>n) return -1;
+ int low= *max_element(boards.begin(), boards.end());
+ int high  = accumulate(boards.begin(), boards.end(), 0);
+ while(low<=high)
+ {
+    int mid= (low+high)/2;
+    int ppl= nopainter(boards, mid);
+    if(ppl>k)
+    {
+        low=mid+1;
+    }
+    else{
+        high=mid-1;
+    }
+ }
+return low;
+}
