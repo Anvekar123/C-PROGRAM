@@ -687,3 +687,192 @@ if(k>n) return -1;
  }
 return low;
 }
+int lowerB(vector<int> &arr, int n, int x)
+{
+    int low=0, high =n-1;
+    int ans=n;
+    while(low<=high)
+    {
+        int mid = (low+high)/2;
+        if(arr[mid]>=x)
+        {
+            ans= mid;
+            high = mid-1;
+        }
+        else
+        {
+            low=mid+1;
+        }
+    }
+    return ans;
+}
+int rowWithMax1s(vector<vector<int>> &matrix, int n, int m) {
+int cnt_max=0;
+int ind=-1;
+for(int i=0;i<n;i++)
+{
+    int cnt =m- lowerB(matrix[i], m, 1);
+    if(cnt > cnt_max)
+    {
+        cnt_max = cnt;
+        ind = i;
+    }
+}
+ return ind;
+}
+bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int n= matrix.size();
+        int m= matrix[0].size();
+        int low= 0, high = n*m -1;
+        while(low<=high)
+        {
+            int mid = (low+high)/2;
+            int  row = mid/m , col= mid % m;
+            int x = matrix[row][col];
+            if(x == target)
+            {
+                return true;
+            }
+            else if (x > target)
+            {
+                high =mid-1;
+            }
+            else
+            {
+                low=mid + 1;
+            }
+        }
+        return false;
+    }
+class Solution {
+public:
+    bool lowerB(vector<int> &arr, int m, int x)
+    {
+        int low=0, high = m-1;
+        int ans= m;
+        while(low <= high)
+        {
+            int mid = (low+high)/2;
+            if(arr[mid] == x)
+            {
+                return true;
+            }
+            else if( arr[mid] > x)
+            {
+                high = mid-1;
+            }
+            else
+            {
+                low= mid+1;
+            }
+        }
+        return false;
+    }
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        int row=0, col=m-1;
+         while(row<n && col>=0)
+         {
+            if(matrix[row][col]== target)
+            {
+                return true;
+            }
+            else if( matrix[row][col] > target)
+            {
+                col--;
+            }
+            else
+            {
+                row++;
+            }
+         }
+         return false;
+        
+    }
+}
+
+
+int MaxIndRow(vector<vector<int>> & arr, int  n, int m, int col)
+{
+    int max_val=-1;
+    int max_ind=-1;
+    for(int i=0;i<n;i++)
+    {
+        if(arr[i][col] > max_val)
+        {
+            max_val= arr[i][col];
+            max_ind=i;
+        }
+    }
+    return max_ind;
+}
+vector<int> findPeakGrid(vector<vector<int>> &g){
+    int n = g.size();
+    int m  =g[0].size();
+    int low=0, high = m-1;
+    while(low<= high)
+    {
+        int mid = (low+high)/2;
+        int maxrow  = MaxIndRow(g, n, m, mid);
+        int left = mid-1 >=0 ? g[maxrow][mid-1] : -1;
+        int right = mid+1 <m ? g[maxrow][mid+1] : -1;
+
+        if(g[maxrow][mid] > left && g[maxrow][mid] > right)
+        {
+            return {maxrow, mid};
+        }
+        else if (g[maxrow][mid]< left)
+        {
+            high=mid-1;
+        }
+        else
+        {
+            low=mid+1;
+        }
+    }
+    return { -1,-1};
+
+}
+
+int MaxIndRow(vector<vector<int>> & arr, int  n, int m, int col)
+{
+    int max_val=-1;
+    int max_ind=-1;
+    for(int i=0;i<n;i++)
+    {
+        if(arr[i][col] > max_val)
+        {
+            max_val= arr[i][col];
+            max_ind=i;
+        }
+    }
+    return max_ind;
+}
+vector<int> findPeakGrid(vector<vector<int>> &g){
+    int n = g.size();
+    int m  =g[0].size();
+    int low=0, high = m-1;
+    while(low<= high)
+    {
+        int mid = (low+high)/2;
+        int maxrow  = MaxIndRow(g, n, m, mid);
+        int left = mid-1 >=0 ? g[maxrow][mid-1] : -1;
+        int right = mid+1 <m ? g[maxrow][mid+1] : -1;
+
+        if(g[maxrow][mid] > left && g[maxrow][mid] > right)
+        {
+            return {maxrow, mid};
+        }
+        else if (g[maxrow][mid]< left)
+        {
+            high=mid-1;
+        }
+        else
+        {
+            low=mid+1;
+        }
+    }
+    return { -1,-1};
+
+}
