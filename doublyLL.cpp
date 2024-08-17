@@ -214,3 +214,39 @@ int main(){
 
     return 0;
 }
+
+
+
+Node* reverseDLL(Node* head)
+{   
+if(head ==NULL || head->next == NULL)
+{
+    return head;
+}
+
+Node * currrent = head;
+Node * last = NULL;
+
+while(currrent != NULL)
+{
+    last = currrent->prev;
+    currrent->prev = currrent->next;
+    currrent->next = last;
+    currrent = currrent->prev;
+}
+
+return last->prev;
+
+}
+Node *findMiddle(Node *head) {
+    // Write your code here
+    Node * slow = head;
+    Node * fast = head;
+    while(fast != NULL && fast->next != NULL)
+    {
+        slow = slow->next;
+        fast= fast->next->next;
+    }
+
+    return slow;
+}
