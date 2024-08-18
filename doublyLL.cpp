@@ -274,3 +274,109 @@ front->next= head;
 head->next =  NULL;
 return newHead;
 }
+bool detectCycle(Node *head)
+{
+    Node * slow = head;
+    Node * fast = head;
+    while(fast!=NULL && fast->next != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+        if(slow == fast) return true;
+    }
+    return false;
+}
+
+Node *firstNode(Node *head)
+{
+    Node * slow= head;
+    Node * fast = head;
+    while(fast != NULL && fast->next != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+        if(slow == fast)
+        {
+            slow = head;
+            while (slow != fast) {
+              slow = slow->next;
+              fast = fast->next;
+            }
+            return slow;
+        }
+    }
+    return NULL;
+}
+
+int looplen(Node * slow, Node * fast )
+{
+    int cnt =1;
+    fast= fast->next;
+    while(slow != fast)
+    {
+        fast= fast->next;
+        cnt++;
+    }
+    return cnt;
+}
+int lengthOfLoop(Node *head) {
+Node * slow= head;
+Node * fast = head;
+while(fast != NULL && fast->next != NULL)
+{
+    slow = slow->next;
+    fast= fast->next->next;
+    if(slow == fast)
+    {
+        return looplen(slow, fast);
+    }
+}
+return 0;
+}
+
+
+Node * reverseHead(Node * head)
+{
+    if(head == NULL || head->next == NULL)
+    {
+        return head;
+    }
+    Node * newHead = reverseHead(head->next);
+    Node * front = head->next;
+    front->next = head;
+    head->next = NULL;
+    return newHead;
+}
+
+bool isPalindrome(Node *head)
+{
+if(head== NULL || head->next == NULL) return true;
+
+Node * slow= head;
+Node * fast = head;
+
+while(fast->next != NULL && fast->next->next != NULL)
+{
+    slow = slow->next;
+    fast= fast->next->next;
+}
+Node * newHead= reverseHead(slow->next);
+Node * fst = head;
+Node * snd = newHead;
+
+while(snd != NULL)
+{
+    if(fst->data != snd->data)
+    {
+        reverseHead(newHead);
+        return false;
+    }
+    fst= fst->next;
+    snd = snd->next;
+}
+
+reverseHead(newHead);
+return true;
+
+
+}
