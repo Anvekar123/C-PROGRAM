@@ -250,3 +250,19 @@ Node *findMiddle(Node *head) {
 
     return slow;
 }
+
+Node* reverseLinkedList(Node *head)
+{
+    Node * front = NULL;
+    Node * prev = NULL;
+    Node * temp = head;
+    while(temp != NULL)
+    {
+        front = temp->next;
+        temp->next = prev;
+        prev= temp;
+        temp = front;
+    }
+    return prev;
+    // Write your code here
+}
