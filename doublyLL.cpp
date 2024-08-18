@@ -253,16 +253,24 @@ Node *findMiddle(Node *head) {
 
 Node* reverseLinkedList(Node *head)
 {
-    Node * front = NULL;
-    Node * prev = NULL;
-    Node * temp = head;
-    while(temp != NULL)
-    {
-        front = temp->next;
-        temp->next = prev;
-        prev= temp;
-        temp = front;
-    }
-    return prev;
-    // Write your code here
+    // Node * front = NULL;
+    // Node * prev = NULL;
+    // Node * temp = head;
+    // while(temp != NULL)
+    // {
+    //     front = temp->next;
+    //     temp->next = prev;
+    //     prev= temp;
+    //     temp = front;
+    // }
+    // return prev;
+if(head== NULL || head->next == NULL)
+{
+    return head;
+}
+Node * newHead = reverseLinkedList(head->next);
+Node * front = head->next;
+front->next= head;
+head->next =  NULL;
+return newHead;
 }
