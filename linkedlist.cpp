@@ -263,3 +263,76 @@ printele(head);
 
     return 0;
 }
+
+
+
+Node* oddEvenList(Node* head)
+{
+if(head == NULL || head->next == NULL)
+{
+    return head;
+}
+Node * even = head->next;
+Node * odd = head;
+Node * evenHead = head->next;
+
+while(even != NULL && even->next != NULL)
+{
+    odd->next = odd->next->next;
+    even->next = even->next->next;
+
+    odd = odd->next;
+    even = even->next;
+
+}
+odd->next = evenHead;
+return head;
+}
+
+Node* removeKthNode(Node* head, int k)
+{
+Node * fast = head;
+Node * slow= head;
+for(int i=0;i<k;i++) fast=fast->next;
+if(fast== NULL)
+{
+    Node * newhead = head;
+    newhead = newhead->next;
+    free (head);
+    return newhead;
+}
+while(fast->next!=NULL)
+{
+    slow= slow->next;
+    fast= fast->next;
+}
+
+Node * delnode = slow->next;
+slow->next= slow->next->next;
+free(delnode);
+
+return head;
+}
+
+
+
+Node* deleteMiddle(Node* head){
+if(head == NULL || head->next== NULL)
+{
+   // free(head);
+    return NULL;
+}
+Node * slow=head;
+Node * fast = head->next->next;
+while(fast != NULL && fast->next != NULL )
+{
+    slow = slow->next;
+    fast = fast->next->next;
+}
+Node * delnode = slow->next;
+slow->next = slow->next->next;
+free(delnode);
+return head;
+
+
+}
