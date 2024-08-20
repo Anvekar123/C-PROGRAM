@@ -428,3 +428,182 @@ return mergesortedll(left, right);
 
 }
 
+Node* sortList(Node *head){
+if(head == NULL || head->next == NULL)
+{
+    return head;
+}
+Node * zerohead = new Node(-1);
+Node * onehead = new Node(-1);
+Node * twohead = new Node (-1);
+Node * zero = zerohead;
+Node * one = onehead;
+Node * two = twohead;
+Node * temp = head;
+
+while(temp != NULL)
+{
+    if(temp->data == 0)
+    {
+        zero->next = temp;
+        zero = temp;
+    }
+    else if (temp->data==1)
+    {
+        one->next = temp;
+        one= temp;
+    }
+    else{
+        two->next = temp;
+        two= temp;
+    }
+    temp = temp->next;
+}
+
+zero->next = (onehead->next) ? (onehead->next) : twohead->next;
+one->next = twohead->next;
+two->next= NULL;
+
+delete (zerohead);
+delete (onehead);
+delete (twohead);
+
+return zerohead->next;
+
+
+}
+#include <bits/stdc++.h>
+using namespace std;
+Node* findIntersection(Node *firstHead, Node *secondHead)
+{
+ map<Node*, int> mpp;
+ Node * temp1 = firstHead;
+ while(temp1 != NULL)
+ {
+     mpp[temp1]=1;
+     temp1= temp1->next;
+ }
+ Node * temp2 = secondHead;
+ while(temp2 != NULL)
+ {
+     if(mpp.find(temp2) != mpp.end()) return temp2;
+     temp2= temp2->next;
+ }
+ return NULL;
+}
+
+Node* findIntersection(Node *firstHead, Node *secondHead)
+{
+    if(firstHead == NULL || secondHead == NULL)
+    {
+        return NULL;
+    }
+    Node * temp1 = firstHead;
+    Node * temp2 = secondHead;
+    while(temp1 != temp2)
+    {
+        temp2= temp2->next;
+        temp1= temp1->next;
+        if(temp1 == temp2) return temp1;
+        if(temp2 == NULL) temp2 = firstHead;
+        if(temp1 == NULL) temp1 = secondHead;
+    }
+    return  temp2;
+}
+Node * reversell(Node * head)
+{
+    if(head== NULL || head->next == NULL) return head;
+
+    Node * newhead= reversell(head->next);
+    Node * front = head->next;
+    front->next = head;
+    head->next = NULL;
+    return newhead; 
+}
+
+Node *addOne(Node *head)
+{
+    if(head == NULL)
+    {
+        return NULL;
+    }
+    Node *revhead = reversell(head);
+    Node * temp = revhead;
+    int cnt =1;
+    while(temp!= NULL)
+    {
+        temp->data = temp->data +1;
+        if(temp->data ==10)
+        {
+            temp->data =0;
+            cnt=1;
+        }
+        else{
+            cnt=0;
+            break;
+        }
+        temp = temp->next;
+    }
+    if(cnt==1)
+    {
+        head = reversell(revhead);
+        Node * newnode = new Node(1,head);
+        return newnode;
+    }
+
+        head = reversell(revhead);
+        return head;
+}
+int helperadd(Node * temp)
+{
+    if (temp ==NULL) return 1;
+    int carry = helperadd(temp->next);
+    temp->data= temp->data + carry;
+    if(temp->data <10)
+    {
+        return  0;
+    }
+    temp->data = 0;
+    return 1;
+}
+Node *addOne(Node *head)
+{
+    int carry = helperadd(head);
+    if(carry ==1)
+    {
+        Node * one = new Node(1,head);
+        return  one;
+    }
+    return head;
+}
+
+
+Node *addTwoNumbers(Node *num1, Node *num2)
+{
+    Node * dummynode = new Node(-1);
+    Node * curr = dummynode;
+    Node * temp1 = num1;
+    Node * temp2 = num2;
+    int carry=0;
+    while(temp1 !=NULL || temp2 != NULL)
+    {
+        int sum=carry;
+
+        if(temp1) sum = sum+ temp1->data;
+        if(temp2) sum = sum + temp2->data;
+        Node * NewNode = new Node(sum%10);
+        carry = sum/10;
+        curr->next = NewNode;
+        curr = NewNode;
+
+        if(temp2) temp2 = temp2->next;
+        if(temp1) temp1 = temp1->next;
+
+    }
+    if(carry)
+    {
+        Node * NewNode = new Node(carry);
+        curr->next = NewNode;
+    }
+    return dummynode->next;
+}
