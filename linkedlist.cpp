@@ -336,3 +336,95 @@ return head;
 
 
 }
+
+Node *sortLL(Node *head)
+{
+if(head == NULL || head->next == NULL)
+{
+	return head;
+}
+vector<int> v;
+Node* temp = head;
+while(temp != NULL)
+{
+	v.push_back(temp->data);
+	temp = temp ->next;
+}
+sort(v.begin(), v.end());
+temp = head;
+int cnt=0;
+while(temp != NULL)
+{
+	temp->data = v[cnt];
+	temp = temp ->next;
+	cnt++;
+}
+return head;
+}
+Node * mergesortedll(Node * left, Node * right)
+{
+	Node * dummyHead = new Node(-1);
+	Node * temp = dummyHead;
+
+	while(left != NULL && right != NULL)
+	{
+		if(left->data >= right->data)
+		{
+			temp->next = right;
+			right = right->next;
+		}
+		else
+		{
+			temp->next= left;
+			left = left->next;
+		}
+		temp= temp->next;
+	}
+
+	if(left != NULL)
+	{
+		temp->next= left;
+	}
+	else
+	{
+		temp->next = right;
+	}
+
+	return dummyHead->next;
+}
+
+Node * findmiddle(Node * head)
+{
+	if(head == NULL || head->next != NULL)
+	{
+		return head;
+	}
+	Node * slow= head;
+	Node * fast= head->next;
+	while(fast != NULL && fast->next!= NULL)
+	{
+		slow = slow->next;
+		fast= fast->next->next;
+	}
+	return slow;
+}
+
+Node *sortLL(Node *head)
+{
+if(head == NULL || head->next ==NULL)
+{
+	return head;
+}
+
+Node * middle = findmiddle(head);
+Node * right = middle->next;
+middle->next= NULL;
+Node * left = head;
+
+left = sortLL(left);
+right = sortLL(right);
+
+return mergesortedll(left, right);
+
+}
+
