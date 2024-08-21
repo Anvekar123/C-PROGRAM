@@ -424,3 +424,109 @@ while(temp!= NULL && temp->next != NULL)
 }
 return head;
 }
+Node * func(Node * head, int k)
+
+{
+     int cnt =1;
+     Node * temp = head;
+     while(k>1)
+     {
+          temp = temp->next;
+          k--;
+     }
+     return temp;
+}
+
+Node *rotate(Node *head, int k) {
+     if(head == NULL || k==0) return head;
+Node * tail= head;
+int len=1;
+while(tail->next!=NULL)
+{
+     tail = tail->next;
+     len++;
+}
+ k=k%len;
+ if(k == 0) return head;
+ tail->next = head;
+ Node * newlast = func(head, len-k);
+ head = newlast->next;
+ newlast->next = NULL;
+ return head;
+}
+Node * merge(Node * list1, Node * list2)
+{
+	Node * dummynode = new Node(-1);
+	Node * curr = dummynode;
+	while(list1!= NULL && list2!=NULL)
+	{
+		if(list1->data < list2->data)
+		{
+			curr->next = NULL;
+			curr->child = list1;
+			list1= list1->child;
+			curr = curr->child;
+		}
+		else
+		{
+			curr->next = NULL;
+			curr->child = list2;
+			list2=list2->child;
+			curr = curr->child;
+		}
+	}
+	if(list1) curr->child = list1;
+	else curr->child = list2;
+	return dummynode->child;
+}
+Node* flattenLinkedList(Node* head) 
+{
+        if (head == NULL || head->next == NULL) {
+                return head;
+        }
+		Node * mergehead = flattenLinkedList(head->next);
+		head = merge(head, mergehead);
+		return head;
+}
+void insertnode(Node * head)
+{
+	Node * temp = head;
+	while(temp!= NULL)
+	{
+		Node * copy = new Node(temp->data);
+		Node * nextele = temp->next;
+		copy->next = nextele;
+		temp->next = copy;
+		temp = nextele;
+	}
+}
+void connectrandom(Node * head)
+{
+	Node * temp	 = head;
+	while(temp!=NULL)
+	{
+		Node * copy = temp->next;
+		if(temp->random) copy->random = temp->random->next;
+		else copy->random = NULL;
+		temp= temp->next->next;
+	}
+}
+Node * deepcopy(Node * head)
+{
+	Node * temp = head;
+	Node * dummy = new Node(-1);
+	Node * res = dummy;
+	while(temp != NULL)
+	{
+		res->next = temp->next;
+		res= temp->next;
+		temp->next = temp->next->next;
+		temp = temp->next;
+	}
+	return dummy->next;
+}
+Node *cloneLL(Node *head){
+	insertnode(head);
+	connectrandom(head);
+	return deepcopy(head);
+}
