@@ -377,6 +377,50 @@ while(snd != NULL)
 
 reverseHead(newHead);
 return true;
+}
 
-
+vector<pair<int, int>> findPairs(Node* head, int k)
+{
+    // if(head == NULL)
+    // {
+    //     return head;
+    // }
+    Node * left=head;
+    Node * right = tail(head);
+    vector<pair<int,int>> ans;
+    while(left->data < right->data)
+    {
+        if(left->data + right->data == k)
+        {
+            ans.push_back({left->data,right->data});
+            left=left->next;
+            right= right->prev;
+        }
+        else if (left->data + right->data > k)
+        {
+            right = right->prev;
+        }
+        else{
+            left= left->next;
+        }
+    }
+    return  ans;
+}
+Node * removeDuplicates(Node *head)
+{
+Node * temp = head;
+while(temp!= NULL && temp->next != NULL)
+{
+    Node * nextnode = temp->next;
+    while(nextnode!= NULL && nextnode->data == temp->data)
+    {
+        Node * duplicate = nextnode;
+        nextnode= nextnode->next;
+        free(duplicate);
+    } 
+    if(nextnode!= NULL) nextnode->prev = temp;
+    temp->next= nextnode;
+    temp= temp->next;
+}
+return head;
 }
